@@ -21,7 +21,7 @@ $imagedata = $_POST['imagedata'];
 // Generate a unique filename.
 $i = 0;
 do {
-  $filename = substr( md5( $imagedata . $i++ ), -8 ) . '.png';
+  $filename = substr( md5( $imagedata . $i++ ), -6 ) . '.png';
 } while ( file_exists( "$path$filename" ) );
 
 // Save the image.
