@@ -13,16 +13,16 @@
 error_reporting(0);
 
 // The local path in which images will be stored (change as neceesary).
-$path = "/srv/www/gyazo/";
+$path = '/srv/www/gyazo/';
 
 // The URI path at which images will be accessed (change as neceesary).
-$uri  = "http://" . $_SERVER['HTTP_HOST'] . "/grab/";
+$uri  = 'http://' . $_SERVER['HTTP_HOST'] . '/grab/';
 
 // Get binary image data from HTTP POST.
 $imagedata = $_POST['imagedata'];
 
 // Generate the filename.
-$filename = md5( "$imagedata" ) . ".png";
+$filename = md5( $imagedata ) . '.png';
 
 // Save the image.
 $fp = fopen( "$path$filename", 'xb' );
