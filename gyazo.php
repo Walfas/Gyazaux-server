@@ -1,16 +1,13 @@
 <?PHP
 
 /*
- * PHP upload for Gyazo - v1.0 - 10/6/2009
+ * PHP upload for Gyazo - v1.1 - 10/7/2009
  * http://benalman.com/news/2009/10/gyazo-on-your-own-server/
  * 
  * Copyright (c) 2009 "Cowboy" Ben Alman
  * Licensed under the MIT license
  * http://benalman.com/about/license/
  */
-
-// Disable all error reporting.
-error_reporting(0);
 
 // The local path in which images will be stored (change as neceesary).
 $path = '/srv/www/gyazo/';
@@ -21,22 +18,21 @@ $uri  = 'http://' . $_SERVER['HTTP_HOST'] . '/grab/';
 // Get binary image data from HTTP POST.
 $imagedata = $_POST['imagedata'];
 
-// Generate the filename.
-$filename = md5( $imagedata ) . '.png';
+// Generate a unique filename.
+$i = 0;
+do {
+  $filename = substr( md5( $imagedata ), -7 ) . $i++ . '.png';
+} while ( file_exists( "$path$filename" ) );
 
 // Save the image.
-$fp = fopen( "$path$filename", 'xb' );
+$fp = fopen( "$path$filename", 'ab' );
+fwrite( $fp, $imagedata );
+fclose( $fp );
 
-// If image didn't already exist, and was created successfully:
-if ( $fp ) {
-  fwrite( $fp, $imagedata );
-  fclose( $fp );
-  
-  // Compress the image (destroying any alpha transparency).
-  $image = @imagecreatefrompng( "$path$filename" );
-  imagepng( $image, "$path$filename", 9 );
-  imagedestroy( $image );
-}
+// Compress the image (destroying any alpha transparency).
+$image = @imagecreatefrompng( "$path$filename" );
+imagepng( $image, "$path$filename", 9 );
+imagedestroy( $image );
 
 // Return the image URI.
 print "$uri$filename";
