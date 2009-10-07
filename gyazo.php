@@ -25,7 +25,7 @@ do {
 } while ( file_exists( "$path$filename" ) );
 
 // Save the image.
-$fp = @fopen( "$path$filename", 'ab' );
+$fp = fopen( "$path$filename", 'ab' );
 fwrite( $fp, $imagedata );
 fclose( $fp );
 
