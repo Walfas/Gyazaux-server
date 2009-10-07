@@ -21,11 +21,11 @@ $imagedata = $_POST['imagedata'];
 // Generate a unique filename.
 $i = 0;
 do {
-  $filename = substr( md5( $imagedata ), -7 ) . $i++ . '.png';
+  $filename = substr( md5( $imagedata . $i++ ), -8 ) . '.png';
 } while ( file_exists( "$path$filename" ) );
 
 // Save the image.
-$fp = fopen( "$path$filename", 'ab' );
+$fp = @fopen( "$path$filename", 'ab' );
 fwrite( $fp, $imagedata );
 fclose( $fp );
 
