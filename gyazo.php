@@ -2,7 +2,7 @@
 
 /*
  * PHP upload for Gyazo - v1.0 - 10/6/2009
- * http://benalman.com/
+ * http://benalman.com/news/2009/10/gyazo-on-your-own-server/
  * 
  * Copyright (c) 2009 "Cowboy" Ben Alman
  * Licensed under the MIT license
