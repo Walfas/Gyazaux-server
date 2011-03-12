@@ -1,40 +1,47 @@
 <?PHP
 
 /*
- * PHP upload for Gyazo - v1.1 - 10/7/2009
+ * PHP upload for Gyazo - v1.2 - 3/12/2011
  * http://benalman.com/news/2009/10/gyazo-on-your-own-server/
  * 
- * Copyright (c) 2009 "Cowboy" Ben Alman
+ * Copyright (c) 2011 "Cowboy" Ben Alman
  * Licensed under the MIT license
  * http://benalman.com/about/license/
  */
 
-// The local path in which images will be stored (change as neceesary).
+// The local path in which images will be stored (change as necessary).
+// You can also use dirname( __FILE__ ) . "/relative/to/this/script/";
 $path = '/srv/www/gyazo/';
 
-// The URI path at which images will be accessed (change as neceesary).
+// The URI path at which images will be accessed (change as necessary).
 $uri  = 'http://' . $_SERVER['HTTP_HOST'] . '/grab/';
 
-// Get binary image data from HTTP POST.
-$imagedata = $_POST['imagedata'];
+// "imagedata" can be adjusted in the form-data name attr in gyazo's script
+// configuration file. If it's non-existent or has no size, abort.
+if (!isset($_FILES['imagedata']['error']) || $_FILES['imagedata']['size'] < 1) {
+  echo $uri, 'invalid.png';
+  exit;
+}
 
 // Generate a unique filename.
 $i = 0;
 do {
-  $filename = substr( md5( $imagedata . $i++ ), -6 ) . '.png';
-} while ( file_exists( "$path$filename" ) );
+  $filename = substr(md5($imagedata . $i++), -6) . '.png';
+  $filepath = "$path$filename";
+} while ( file_exists($filepath) );
 
-// Save the image.
-$fp = fopen( "$path$filename", 'ab' );
-fwrite( $fp, $imagedata );
-fclose( $fp );
+// Move the file. If moving the file fails, abort.
+if ( !move_uploaded_file($_FILES['imagedata']['tmp_name'], $filepath) ) {
+  echo $uri, 'error.png'; 
+  exit;
+}
 
 // Compress the image (destroying any alpha transparency).
-$image = @imagecreatefrompng( "$path$filename" );
-imagepng( $image, "$path$filename", 9 );
-imagedestroy( $image );
+$image = @imagecreatefrompng($filepath);
+imagepng($image, $filepath, 9);
+imagedestroy($image);
 
 // Return the image URI.
-print "$uri$filename";
+echo $uri, $filename;
 
 ?>
