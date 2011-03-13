@@ -1,7 +1,7 @@
 <?PHP
 
 /*
- * PHP upload for Gyazo - v1.2 - 3/12/2011
+ * PHP upload for Gyazo - v1.2.1 - 3/13/2011
  * http://benalman.com/news/2009/10/gyazo-on-your-own-server/
  * 
  * Copyright (c) 2011 "Cowboy" Ben Alman
@@ -26,7 +26,7 @@ if (!isset($_FILES['imagedata']['error']) || $_FILES['imagedata']['size'] < 1) {
 // Generate a unique filename.
 $i = 0;
 do {
-  $filename = substr(md5($imagedata . $i++), -6) . '.png';
+  $filename = substr(md5(time() . $i++), -6) . '.png';
   $filepath = "$path$filename";
 } while ( file_exists($filepath) );
 
