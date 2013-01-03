@@ -10,6 +10,8 @@ Files uploaded with the same name will have a counter appended. e.g.,
 attempting to upload `hi.jpg` while `hi1.jpg` and `hi2.jpg` exist will result 
 in `hi3.jpg` being uploaded. `jpg`s and `png`s have different counters.
 
+Uploads can optionally be sent to separate directories based on date.
+
 ### Dependencies
 `gd` (for image creation) and `exif` (to check image type) need to be enabled 
 in your `php.ini`. I'm not aware of any other dependencies at this time. 
