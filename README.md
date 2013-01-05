@@ -3,6 +3,10 @@ Gyazaux server
 
 [Gyazo][G] server modified from Ben Alman's "[Gyazo.. on your own server][Ben]".
 
+**Note**: As with the original, there is no authentication; anyone can 
+upload if they know the URL of the PHP file. If this is a concern, try naming 
+it something difficult to guess.
+
 When used with [Gyazaux client][GC], allows uploads with custom file names and 
 JPG files (previously only PNG, like regular Gyazo). 
 

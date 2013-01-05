@@ -15,7 +15,7 @@
 
 // If true, uploaded files will be sent to directories based on date
 $split_date = false;
-$date_format = "Y/m"; // See PHP's `date` function for formats
+$date_format = 'Y/m'; // See PHP's `date` function for formats
 
 // The local path in which images will be stored (change as necessary).
 // You can also use dirname( __FILE__ ) . "/relative/to/this/script/";
@@ -51,7 +51,7 @@ if ($split_date) {
 		exit;
 	}
 	$path .= '/'.$date_path;
-	if (!is_file($path) && !mkdir($path,0775,true))
+	if (!is_dir($path) && !mkdir($path,0775,true))
 		header('g', true, 500); // could not make directory
 }
 else
